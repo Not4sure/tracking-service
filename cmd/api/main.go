@@ -18,5 +18,4 @@ func main() {
 		apiServer := http_api.NewAPIServer(app)
 		apiServer.RegisterRoutes(router)
 	})
-
 }

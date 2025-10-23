@@ -2,7 +2,7 @@
 .PHONY: build
 build:
 	@echo "Building..."
-	@go build -o main cmd/app/main.go
+	@go build -o main cmd/api/main.go
 
 # Start docker compose containers
 .PHONY: start
@@ -16,7 +16,7 @@ start:
 # Just run a application
 .PHONY: run
 run:
-	@go run ./cmd/app/main.go
+	@go run ./cmd/api/main.go
 
 # Live Reload
 .PHONY: watch
