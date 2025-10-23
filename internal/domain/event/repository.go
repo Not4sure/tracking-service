@@ -13,8 +13,8 @@ var (
 	ErrEventAlreadyExists = errors.New("event already exists")
 )
 
-// EventRepository is interface for storage of Events.
-type EventRepository interface {
+// Repository is interface for storage of Events.
+type Repository interface {
 	Store(ctx context.Context, e *Event) error
 	FindByUUID(ctx context.Context, uuid uuid.UUID) (*Event, error)
 	List(ctx context.Context, userID uint, from time.Time, till time.Time) ([]*Event, error)
