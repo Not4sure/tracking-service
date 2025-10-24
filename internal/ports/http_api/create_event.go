@@ -4,6 +4,7 @@ import (
 	"net/http"
 
 	"github.com/not4sure/tracking-service/internal/app/command"
+	"github.com/not4sure/tracking-service/internal/server/httperr"
 )
 
 type createEventParams struct {
@@ -29,7 +30,7 @@ func (s APIServer) CreateEvent(w http.ResponseWriter, r *http.Request) {
 
 	err := s.app.Commands.CreateEvent.Handle(r.Context(), params.toCmd())
 	if err != nil {
-		// TODO: handle application error.
+		httperr.RespondWithSlugError(err, w, r)
 		return
 	}
 

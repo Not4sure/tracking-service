@@ -2,15 +2,15 @@ package event
 
 import (
 	"context"
-	"errors"
 	"time"
 
 	"github.com/google/uuid"
+	"github.com/not4sure/tracking-service/internal/common/errors"
 )
 
 var (
-	ErrEventNotFound      = errors.New("event not found")
-	ErrEventAlreadyExists = errors.New("event already exists")
+	ErrEventNotFound      = errors.NewNotFoundError("event not found", "Cannot found event")
+	ErrEventAlreadyExists = errors.NewIncorrectInputError("event already exists", "Event with such id already exists")
 )
 
 // Repository is interface for storage of Events.

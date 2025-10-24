@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/not4sure/tracking-service/internal/app/query"
+	"github.com/not4sure/tracking-service/internal/server/httperr"
 )
 
 type listEventsParams struct {
@@ -53,7 +54,7 @@ func (s APIServer) ListEvents(w http.ResponseWriter, r *http.Request) {
 
 	ee, err := s.app.Queries.ListEvents.Handle(r.Context(), params.toQuery())
 	if err != nil {
-		// TODO: handle application error.
+		httperr.RespondWithSlugError(err, w, r)
 		return
 	}
 
