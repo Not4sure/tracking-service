@@ -1,12 +1,17 @@
 package http_api
 
 import (
+	"encoding/json"
+	"io"
 	"net/http"
 
+	"github.com/Masterminds/formenc/encoding/form"
 	"github.com/not4sure/tracking-service/internal/app"
 )
 
-type APIServer struct{ app app.Application }
+type APIServer struct {
+	app app.Application
+}
 
 func NewAPIServer(app app.Application) APIServer {
 	return APIServer{
@@ -15,6 +20,34 @@ func NewAPIServer(app app.Application) APIServer {
 }
 
 func (s APIServer) RegisterRoutes(r *http.ServeMux) {
-	// TODO: Add routes.
+	r.HandleFunc("POST /event", s.CreateEvent)
+	r.HandleFunc("GET /event", s.ListEvents)
+}
 
+func unmarshallURLForm(r *http.Request, v any) error {
+	err := r.ParseForm()
+	if err != nil {
+		return err
+	}
+
+	return form.Unmarshal(r.Form, v)
+}
+
+func unmarshallBodyJSON(r *http.Request, v any) error {
+	body, err := io.ReadAll(r.Body)
+	if err != nil {
+		return err
+	}
+
+	return json.Unmarshal(body, v)
+}
+
+func respondWithJSON(w http.ResponseWriter, statusCode int, data any) {
+	sendHeaders(w, statusCode)
+	json.NewEncoder(w).Encode(data)
+}
+
+func sendHeaders(w http.ResponseWriter, statusCode int) {
+	w.Header().Add("content-type", "application/json")
+	w.WriteHeader(statusCode)
 }
