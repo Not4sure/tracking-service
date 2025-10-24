@@ -1,0 +1,13 @@
+
+services:
+  db: 
+    image: postgres:latest
+    environment: 
+      POSTGRES_PASSWORD: local_only
+    ports:
+      - "5432:5432"
+
+  adminer: 
+    image: adminer:latest
+    ports: 
+      - "8000:8080"

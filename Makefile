@@ -42,3 +42,14 @@ test:
 	@echo "Testing..."
 	@go test ./... -v
 
+.PHONY: sqlgen
+sqlgen:
+	@sqlc generate
+
+.PHONY: migrateup
+migrateup:
+	@migrate -database "postgres://postgres:local_only@localhost:5432/test?sslmode=disable" -path ./internal/common/db/migrations up
+
+.PHONY: migratedown
+migratedown:
+	@migrate -database "postgres://postgres:local_only@localhost:5432/test?sslmode=disable" -path ./internal/common/db/migrations down
