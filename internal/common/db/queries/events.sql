@@ -12,3 +12,9 @@ FROM events
 WHERE user_id = $1 
   AND occured_at BETWEEN $2 AND $3
 ORDER BY occured_at;
+
+-- name: FindByID :one
+SELECT *
+FROM events
+WHERE id = $1 
+LIMIT 1;

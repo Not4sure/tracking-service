@@ -38,6 +38,26 @@ func (q *Queries) CreateEvent(ctx context.Context, arg CreateEventParams) error 
 	return err
 }
 
+const findByID = `-- name: FindByID :one
+SELECT id, occured_at, user_id, action, metadata
+FROM events
+WHERE id = $1 
+LIMIT 1
+`
+
+func (q *Queries) FindByID(ctx context.Context, id pgtype.UUID) (Event, error) {
+	row := q.db.QueryRow(ctx, findByID, id)
+	var i Event
+	err := row.Scan(
+		&i.ID,
+		&i.OccuredAt,
+		&i.UserID,
+		&i.Action,
+		&i.Metadata,
+	)
+	return i, err
+}
+
 const listEvents = `-- name: ListEvents :many
 SELECT id, occured_at, user_id, action, metadata 
 FROM events 

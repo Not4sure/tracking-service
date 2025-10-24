@@ -32,6 +32,27 @@ func New(userID uint, action string, opts ...EventOption) (*Event, error) {
 	return e, nil
 }
 
+// UnmarshalEventFromDatabase unmarshals Event the database.
+//
+// It should be used only for unmarshalling from the database!
+// You can't use UnmarshalEventFromDatabase as constructor - It may put domain into the invalid state!
+func UnmarshalEventFromDatabase(
+	uuid uuid.UUID,
+	occuredAt time.Time,
+	userID uint,
+	action string,
+	metadata Metadata,
+) (*Event, error) {
+	e, err := New(userID, action, WithMetadata(metadata))
+	if err != nil {
+		return nil, err
+	}
+
+	e.uuid = uuid
+	e.occuredAt = occuredAt
+	return e, nil
+}
+
 // UUID returns id of Event.
 func (e *Event) UUID() uuid.UUID {
 	return e.uuid

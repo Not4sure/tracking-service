@@ -12,7 +12,15 @@ import (
 )
 
 func NewApplication(ctx context.Context) app.Application {
-	eventRepo := adapters.NewEventMemoryRepository()
+
+	conn, err := adapters.NewPostgresConnection(ctx)
+	if err != nil {
+		panic(err)
+	}
+
+	// eventRepo := adapters.NewEventsMemoryRepository()
+	eventRepo := adapters.NewEventsPostgresRepository(conn)
+
 	logger := logrus.NewEntry(logrus.StandardLogger())
 	metricsClient := metrics.NoOp{}
 

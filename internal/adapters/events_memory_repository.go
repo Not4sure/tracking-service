@@ -9,18 +9,18 @@ import (
 	"github.com/not4sure/tracking-service/internal/domain/event"
 )
 
-type EventMemoryRepository struct {
+type EventsMemoryRepository struct {
 	sync.Mutex
 	events map[uuid.UUID]event.Event
 }
 
-func NewEventMemoryRepository() *EventMemoryRepository {
-	return &EventMemoryRepository{
+func NewEventsMemoryRepository() *EventsMemoryRepository {
+	return &EventsMemoryRepository{
 		events: map[uuid.UUID]event.Event{},
 	}
 }
 
-func (mr *EventMemoryRepository) Store(_ context.Context, e *event.Event) error {
+func (mr *EventsMemoryRepository) Store(_ context.Context, e *event.Event) error {
 	mr.Lock()
 	defer mr.Unlock()
 
@@ -32,7 +32,7 @@ func (mr *EventMemoryRepository) Store(_ context.Context, e *event.Event) error 
 	return nil
 }
 
-func (mr *EventMemoryRepository) FindByUUID(_ context.Context, id uuid.UUID) (*event.Event, error) {
+func (mr *EventsMemoryRepository) FindByUUID(_ context.Context, id uuid.UUID) (*event.Event, error) {
 	mr.Lock()
 	defer mr.Unlock()
 
@@ -44,7 +44,7 @@ func (mr *EventMemoryRepository) FindByUUID(_ context.Context, id uuid.UUID) (*e
 	return &e, nil
 }
 
-func (mr *EventMemoryRepository) List(_ context.Context, userID uint, from time.Time, till time.Time) ([]*event.Event, error) {
+func (mr *EventsMemoryRepository) List(_ context.Context, userID uint, from time.Time, till time.Time) ([]*event.Event, error) {
 	var ee []*event.Event
 	for _, e := range mr.events {
 		switch true {
