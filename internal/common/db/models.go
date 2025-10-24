@@ -15,3 +15,11 @@ type Event struct {
 	Action    string
 	Metadata  []byte
 }
+
+type UserActivityMetric struct {
+	UserID        int64
+	EventCount    int32
+	WindowStartAt pgtype.Timestamp
+	WindowEndAt   pgtype.Timestamp
+	CreatedAt     pgtype.Timestamp
+}

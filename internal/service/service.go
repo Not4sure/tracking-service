@@ -18,18 +18,20 @@ func NewApplication(ctx context.Context) app.Application {
 		panic(err)
 	}
 
-	// eventRepo := adapters.NewEventsMemoryRepository()
 	eventRepo := adapters.NewEventsPostgresRepository(conn)
+	metricsRepo := adapters.NewMetricsPostgresRepository(conn)
+	metricsProvider := adapters.NewMetricsPostgresProvider(conn)
 
 	logger := logrus.NewEntry(logrus.StandardLogger())
-	metricsClient := metrics.NoOp{}
+	appMetricsClient := metrics.NoOp{}
 
 	return app.Application{
 		Commands: app.Commands{
-			CreateEvent: command.NewCreateEventHandler(eventRepo, logger, metricsClient),
+			CreateEvent:      command.NewCreateEventHandler(eventRepo, logger, appMetricsClient),
+			CalculateMetrics: command.NewCalculateMetricsHandler(&metricsRepo, &metricsProvider, logger, appMetricsClient),
 		},
 		Queries: app.Queries{
-			ListEvents: query.NewListEventsHandler(eventRepo, logger, metricsClient),
+			ListEvents: query.NewListEventsHandler(eventRepo, logger, appMetricsClient),
 		},
 	}
 }

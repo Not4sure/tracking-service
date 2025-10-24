@@ -11,6 +11,45 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
+const countEventsByUser = `-- name: CountEventsByUser :many
+SELECT 
+  user_id,
+  COUNT(id) AS event_count
+FROM events
+WHERE occured_at BETWEEN $1 AND $2
+GROUP BY user_id
+`
+
+type CountEventsByUserParams struct {
+	OccuredAt   pgtype.Timestamp
+	OccuredAt_2 pgtype.Timestamp
+}
+
+type CountEventsByUserRow struct {
+	UserID     int64
+	EventCount int64
+}
+
+func (q *Queries) CountEventsByUser(ctx context.Context, arg CountEventsByUserParams) ([]CountEventsByUserRow, error) {
+	rows, err := q.db.Query(ctx, countEventsByUser, arg.OccuredAt, arg.OccuredAt_2)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []CountEventsByUserRow
+	for rows.Next() {
+		var i CountEventsByUserRow
+		if err := rows.Scan(&i.UserID, &i.EventCount); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const createEvent = `-- name: CreateEvent :exec
 INSERT INTO events (
   id, occured_at, user_id, action, metadata

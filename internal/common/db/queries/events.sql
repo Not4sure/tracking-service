@@ -18,3 +18,12 @@ SELECT *
 FROM events
 WHERE id = $1 
 LIMIT 1;
+
+-- name: CountEventsByUser :many
+SELECT 
+  user_id,
+  COUNT(id) AS event_count
+FROM events
+WHERE occured_at BETWEEN $1 AND $2
+GROUP BY user_id;
+

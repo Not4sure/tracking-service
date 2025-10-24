@@ -11,7 +11,8 @@ type Application struct {
 }
 
 type Commands struct {
-	CreateEvent command.CreateEventHandler
+	CreateEvent      command.CreateEventHandler
+	CalculateMetrics command.CalculateMetricsHandler
 }
 
 type Queries struct {

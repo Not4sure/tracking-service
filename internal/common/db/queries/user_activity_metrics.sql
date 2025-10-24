@@ -1,0 +1,15 @@
+
+-- name: ListUserActivityMetrics :many
+SELECT * 
+FROM user_activity_metrics 
+WHERE user_id = $1
+  AND window_start_at BETWEEN $2 AND $3
+ORDER BY window_start_at;
+
+-- name: CreateUserActivityMetric :exec
+INSERT INTO user_activity_metrics (
+  user_id, event_count, window_start_at, window_end_at, created_at
+) VALUES (
+  $1, $2, $3, $4, $5
+);
+
