@@ -6,12 +6,17 @@ services:
       PORT: 8080
       POSTGRES_URL: postgres://tracking_service:password@db:5432/tracking_service
       LOCAL_ENV: 1
-      CORS_ALLOWED_ORIGINS: localhost:3000
+      CORS_ALLOWED_ORIGINS: http://localhost:3000
     depends_on: 
       migrate:
         condition: service_completed_successfully
     ports: 
       - "8080:8080"
+
+  frontend:
+    build: ./front
+    ports:
+      - "3000:80"
 
   migrate:
     image: migrate/migrate

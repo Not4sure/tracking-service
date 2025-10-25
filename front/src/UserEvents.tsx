@@ -10,7 +10,6 @@ export function UserEvents() {
   const testEndpoint = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const endpoint = "localhost:8080"
     try {
       const form = e.currentTarget;
       const formData = new FormData(form);
@@ -20,14 +19,14 @@ export function UserEvents() {
       p.append("from", parseDate(formData.get("from")))
       p.append("till", parseDate(formData.get("till")))
 
-      const url = `http://${endpoint}/api/events?${p.toString()}`
+      const apiBaseURL = 'http://localhost:8080';
+
+      const url = `${apiBaseURL}/api/events?${p.toString()}`
       const res = await fetch(url, { method: "GET" });
 
       const data = await res.json();
       setEvents(data.events)
-    } catch (error) {
-      // TODO: handle error
-    }
+    } catch (error) { }
   };
 
   return (
