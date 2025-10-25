@@ -20,8 +20,8 @@ func (p *listEventsParams) FormSetFrom(v []string) error {
 		return errors.New("no from field")
 	}
 
-	from, err := time.Parse(time.RFC3339, v[0])
-	p.From = from
+	t, err := time.Parse(time.RFC3339, v[0])
+	p.From = t
 
 	return err
 }
@@ -62,7 +62,7 @@ func (s APIServer) ListEvents(w http.ResponseWriter, r *http.Request) {
 }
 
 func appEventsToResponse(ee []query.Event) Events {
-	rsp := Events{}
+	rsp := Events{Events: []Event{}}
 	for _, e := range ee {
 		rsp.Events = append(rsp.Events, Event{
 			UUID:      e.UUID.String(),

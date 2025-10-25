@@ -18,6 +18,22 @@ func NewMetric(userID uint, eventCount uint, w TimeWindow) *Metric {
 	}
 }
 
+// UnmarshalMetricFromDatabase unmarshals Metric the database.
+//
+// It should be used only for unmarshalling from the database!
+// You can't use UnmarshalMetricFromDatabase as constructor - It may put domain into the invalid state!
+func UnmarshalMetricFromDatabase(
+	userID uint,
+	eventCount uint,
+	timeWindowStart time.Time,
+	createdAt time.Time,
+) *Metric {
+	m := NewMetric(userID, eventCount, TimeWindow{start: timeWindowStart})
+
+	m.createdAt = createdAt
+	return m
+}
+
 func (m Metric) UserID() uint {
 	return m.userID
 }

@@ -31,7 +31,8 @@ func NewApplication(ctx context.Context) app.Application {
 			CalculateMetrics: command.NewCalculateMetricsHandler(&metricsRepo, &metricsProvider, logger, appMetricsClient),
 		},
 		Queries: app.Queries{
-			ListEvents: query.NewListEventsHandler(eventRepo, logger, appMetricsClient),
+			ListEvents:  query.NewListEventsHandler(eventRepo, logger, appMetricsClient),
+			ListMetrics: query.NewListMetricsHandler(&metricsRepo, logger, appMetricsClient),
 		},
 	}
 }

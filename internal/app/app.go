@@ -16,5 +16,6 @@ type Commands struct {
 }
 
 type Queries struct {
-	ListEvents query.ListEventsHandler
+	ListEvents  query.ListEventsHandler
+	ListMetrics query.ListMetricsHandler
 }

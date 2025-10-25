@@ -5,6 +5,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/not4sure/tracking-service/internal/domain/event"
+	"github.com/not4sure/tracking-service/internal/domain/metric"
 )
 
 type Event struct {
@@ -24,5 +25,23 @@ func domainEventToView(e *event.Event) Event {
 		UserID:   e.UserID(),
 		Action:   e.Action(),
 		Metadata: e.Metadata(),
+	}
+}
+
+type Metric struct {
+	UserID        uint
+	EventCount    uint
+	WindowStartAt time.Time
+	WindowEndAt   time.Time
+	CreatedAt     time.Time
+}
+
+func domainMetricToView(m *metric.Metric) Metric {
+	return Metric{
+		UserID:        m.UserID(),
+		EventCount:    m.EventCount(),
+		WindowStartAt: m.TimeWindow().Start(),
+		WindowEndAt:   m.TimeWindow().End(),
+		CreatedAt:     m.CreatedAt(),
 	}
 }

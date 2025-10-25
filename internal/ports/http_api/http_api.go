@@ -23,6 +23,7 @@ func (s APIServer) RegisterRoutes(r *http.ServeMux) {
 	r.HandleFunc("POST /event", s.CreateEvent)
 	r.HandleFunc("GET /event", s.ListEvents)
 	r.HandleFunc("POST /metrics", s.CalcuateMetrics)
+	r.HandleFunc("GET /metrics", s.ListMetrics)
 }
 
 func unmarshallURLForm(r *http.Request, v any) error {

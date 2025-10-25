@@ -61,7 +61,7 @@ func (pr *EventsPostgresRepository) Store(ctx context.Context, e *event.Event) e
 	return nil
 }
 
-func (pr *EventsPostgresRepository) List(ctx context.Context, userID uint, from time.Time, till time.Time) ([]*event.Event, error) {
+func (pr *EventsPostgresRepository) List(ctx context.Context, userID uint, from, till time.Time) ([]*event.Event, error) {
 	arg := db.ListEventsParams{
 		UserID:      int64(userID),
 		OccuredAt:   convert.TimeToTimestamp(from),
