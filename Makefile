@@ -1,8 +1,12 @@
 
-.PHONY: build
-build:
-	@echo "Building..."
-	@go build -o main cmd/api/main.go
+# Stop docker containers
+.PHONY: stop
+stop:
+	@if podman-compose down>/dev/null; then \
+		: ; \
+	else \
+		docker-compose down; \
+	fi
 
 # Start docker compose containers
 .PHONY: start
@@ -12,6 +16,19 @@ start:
 	else \
 		docker-compose up -d; \
 	fi
+
+.PHONY: start_db
+start_db:
+	@if podman-compose up -d db migrate adminer>/dev/null; then \
+		: ; \
+	else \
+		docker-compose up -d db migrate adminer; \
+	fi
+
+.PHONY: build
+build:
+	@echo "Building..."
+	@go build -o main cmd/api/main.go
 
 # Just run a application
 .PHONY: run
@@ -42,7 +59,7 @@ test:
 	@echo "Testing..."
 	@go test ./... -v
 
-.PHONY: sqlgen
+.PHONY: codegen
 sqlgen:
 	@sqlc generate
 
