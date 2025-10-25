@@ -48,8 +48,8 @@ sqlgen:
 
 .PHONY: migrateup
 migrateup:
-	@migrate -database "postgres://postgres:local_only@localhost:5432/test?sslmode=disable" -path ./internal/common/db/migrations up
+	@migrate -database "postgres://tracking_service:password@localhost:5432/tracking_service?sslmode=disable" -path ./internal/common/db/migrations up
 
 .PHONY: migratedown
 migratedown:
-	@migrate -database "postgres://postgres:local_only@localhost:5432/test?sslmode=disable" -path ./internal/common/db/migrations down
+	@migrate -database "postgres://tracking_service:password@localhost:5432/tracking_service?sslmode=disable" -path ./internal/common/db/migrations down

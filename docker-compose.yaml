@@ -1,9 +1,20 @@
 
 services:
+  backend: 
+    build: .
+    environment: 
+      PORT: 8080
+      POSTGRES_URL: postgres://tracking_service:password@db:5432/tracking_service
+      LOCAL_ENV: 1
+    ports: 
+      - "8080:8080"
+
   db: 
     image: postgres:latest
     environment: 
-      POSTGRES_PASSWORD: local_only
+      POSTGRES_USER: tracking_service
+      POSTGRES_DB: tracking_service
+      POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
 
