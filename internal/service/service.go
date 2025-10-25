@@ -12,7 +12,6 @@ import (
 )
 
 func NewApplication(ctx context.Context) app.Application {
-
 	conn, err := adapters.NewPostgresConnection(ctx)
 	if err != nil {
 		panic(err)
