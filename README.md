@@ -11,4 +11,11 @@ Go REST API service test task.
 - Added http_api port implementation with endpoints for application handlers
 
 ## Day 2
+- Added postgres migrations for events table
+- Added sqlc code generation for database access 
+- Created postgres implementation for event repository and updated tests
+- Added domain layer and database structure for user activity metrics
+- Created application handler for metrics calculation
+
+## Day 3
 - 
