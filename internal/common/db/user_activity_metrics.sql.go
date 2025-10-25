@@ -11,33 +11,6 @@ import (
 	"github.com/jackc/pgx/v5/pgtype"
 )
 
-const createUserActivityMetric = `-- name: CreateUserActivityMetric :exec
-INSERT INTO user_activity_metrics (
-  user_id, event_count, window_start_at, window_end_at, created_at
-) VALUES (
-  $1, $2, $3, $4, $5
-)
-`
-
-type CreateUserActivityMetricParams struct {
-	UserID        int64
-	EventCount    int32
-	WindowStartAt pgtype.Timestamp
-	WindowEndAt   pgtype.Timestamp
-	CreatedAt     pgtype.Timestamp
-}
-
-func (q *Queries) CreateUserActivityMetric(ctx context.Context, arg CreateUserActivityMetricParams) error {
-	_, err := q.db.Exec(ctx, createUserActivityMetric,
-		arg.UserID,
-		arg.EventCount,
-		arg.WindowStartAt,
-		arg.WindowEndAt,
-		arg.CreatedAt,
-	)
-	return err
-}
-
 const listUserActivityMetrics = `-- name: ListUserActivityMetrics :many
 SELECT user_id, event_count, window_start_at, window_end_at, created_at 
 FROM user_activity_metrics 
@@ -76,4 +49,34 @@ func (q *Queries) ListUserActivityMetrics(ctx context.Context, arg ListUserActiv
 		return nil, err
 	}
 	return items, nil
+}
+
+const upsertUserActivityMetric = `-- name: UpsertUserActivityMetric :exec
+INSERT INTO user_activity_metrics (
+  user_id, event_count, window_start_at, window_end_at, created_at
+) VALUES (
+  $1, $2, $3, $4, $5
+) ON CONFLICT (user_id, window_start_at) DO UPDATE
+SET 
+  event_count = EXCLUDED.event_count,
+  created_at = EXCLUDED.created_at
+`
+
+type UpsertUserActivityMetricParams struct {
+	UserID        int64
+	EventCount    int32
+	WindowStartAt pgtype.Timestamp
+	WindowEndAt   pgtype.Timestamp
+	CreatedAt     pgtype.Timestamp
+}
+
+func (q *Queries) UpsertUserActivityMetric(ctx context.Context, arg UpsertUserActivityMetricParams) error {
+	_, err := q.db.Exec(ctx, upsertUserActivityMetric,
+		arg.UserID,
+		arg.EventCount,
+		arg.WindowStartAt,
+		arg.WindowEndAt,
+		arg.CreatedAt,
+	)
+	return err
 }

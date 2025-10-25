@@ -20,7 +20,7 @@ func NewMetricsPostgresRepository(conn *pgxpool.Pool) MetricsPostgresRepository 
 }
 
 func (r *MetricsPostgresRepository) Store(ctx context.Context, m *metric.Metric) error {
-	arg := db.CreateUserActivityMetricParams{
+	arg := db.UpsertUserActivityMetricParams{
 		UserID:        int64(m.UserID()),
 		EventCount:    int32(m.EventCount()),
 		WindowStartAt: convert.TimeToTimestamp(m.TimeWindow().Start()),
@@ -28,5 +28,13 @@ func (r *MetricsPostgresRepository) Store(ctx context.Context, m *metric.Metric)
 		CreatedAt:     convert.TimeToTimestamp(m.CreatedAt()),
 	}
 
-	return db.New(r.conn).CreateUserActivityMetric(ctx, arg)
+	return r.queries().UpsertUserActivityMetric(ctx, arg)
+}
+
+func (r *MetricsPostgresRepository) List(ctx context.Context) ([]*metric.Metric, error) {
+	panic("uniplemented")
+}
+
+func (r *MetricsPostgresRepository) queries() *db.Queries {
+	return db.New(r.conn)
 }

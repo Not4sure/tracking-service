@@ -25,7 +25,7 @@ func (mp *MetricsPostgresProvider) AtTimeWindow(ctx context.Context, tw metric.T
 		OccuredAt_2: convert.TimeToTimestamp(tw.End()),
 	}
 
-	rows, err := db.New(mp.conn).CountEventsByUser(ctx, arg)
+	rows, err := mp.queries().CountEventsByUser(ctx, arg)
 	if err != nil {
 		return nil, err
 	}
@@ -36,4 +36,8 @@ func (mp *MetricsPostgresProvider) AtTimeWindow(ctx context.Context, tw metric.T
 	}
 
 	return mm, nil
+}
+
+func (r *MetricsPostgresProvider) queries() *db.Queries {
+	return db.New(r.conn)
 }
