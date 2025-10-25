@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/Masterminds/formenc/encoding/form"
+	"github.com/go-chi/chi/v5"
 	"github.com/not4sure/tracking-service/internal/app"
 )
 
@@ -19,11 +20,11 @@ func NewAPIServer(app app.Application) APIServer {
 	}
 }
 
-func (s APIServer) RegisterRoutes(r *http.ServeMux) {
-	r.HandleFunc("POST /event", s.CreateEvent)
-	r.HandleFunc("GET /event", s.ListEvents)
-	r.HandleFunc("POST /metrics", s.CalcuateMetrics)
-	r.HandleFunc("GET /metrics", s.ListMetrics)
+func (s APIServer) RegisterRoutes(r chi.Router) {
+	r.Post("/event", s.CreateEvent)
+	r.Get("/events", s.ListEvents)
+	r.Post("/metrics", s.CalcuateMetrics)
+	r.Get("/metrics", s.ListMetrics)
 }
 
 func unmarshallURLForm(r *http.Request, v any) error {

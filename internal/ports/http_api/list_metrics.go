@@ -2,7 +2,6 @@ package http_api
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"time"
 
@@ -28,7 +27,6 @@ func (p *listMetricsParams) FormSetFrom(v []string) error {
 }
 
 func (p *listMetricsParams) FormSetTill(v []string) error {
-	fmt.Println(len(v))
 	if len(v) < 1 {
 		return errors.New("no till field")
 	}

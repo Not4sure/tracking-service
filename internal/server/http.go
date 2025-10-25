@@ -4,9 +4,14 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+
+	"github.com/go-chi/chi/middleware"
+	"github.com/go-chi/chi/v5"
+	"github.com/not4sure/tracking-service/internal/common/logs"
+	"github.com/sirupsen/logrus"
 )
 
-type RegisterFn func(router *http.ServeMux)
+type RegisterFn func(router chi.Router)
 
 func RunServer(register RegisterFn) {
 	port := os.Getenv("PORT")
@@ -19,13 +24,30 @@ func RunServer(register RegisterFn) {
 }
 
 func RunServerOnAddr(addr string, register RegisterFn) {
-	router := http.NewServeMux()
-	register(router)
+	apiRouter := chi.NewRouter()
+	setMiddlewares(apiRouter)
+	register(apiRouter)
+
+	rootRouter := chi.NewRouter()
+	rootRouter.Mount("/api", apiRouter)
 
 	server := &http.Server{
 		Addr:    addr,
-		Handler: router,
+		Handler: rootRouter,
 	}
 
-	server.ListenAndServe()
+	logrus.WithField("addr", addr).Info("Starting HTTP server")
+	err := server.ListenAndServe()
+	if err != nil {
+		logrus.WithError(err).Panic("Unable to start HTTP server")
+	}
+}
+
+func setMiddlewares(router *chi.Mux) {
+	router.Use(middleware.RequestID)
+	router.Use(middleware.RealIP)
+	router.Use(logs.NewStructuredLogger(logrus.StandardLogger()))
+	router.Use(middleware.Recoverer)
+
+	// TODO: add CORS middleware
 }
