@@ -41,6 +41,7 @@ services:
 
   adminer: 
     image: adminer:latest
-    depends_on: db
+    depends_on: 
+      - db
     ports: 
       - "8000:8080"
