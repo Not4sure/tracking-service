@@ -1,0 +1,170 @@
+{
+  "meta": {
+    "format": "httpie",
+    "version": "1.0.0",
+    "contentType": "collection",
+    "schema": "https://schema.httpie.io/1.0.0.json",
+    "docs": "https://httpie.io/r/help/export-from-httpie",
+    "source": "HTTPie Desktop 2025.2.0"
+  },
+  "entry": {
+    "name": "Tracking-service",
+    "icon": {
+      "name": "default",
+      "color": "gray"
+    },
+    "auth": {
+      "type": "none"
+    },
+    "requests": [
+      {
+        "name": "Create Event",
+        "url": "http://localhost:8080/api/event",
+        "method": "POST",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "inherited"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "{\n  \"user_id\": 321,\n  \"action\": \"test_action\",\n  \"metadata\": {\n    \"page\": \"/hello/world\"\n  }\n}",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "List events",
+        "url": "http://localhost:8080/api/events",
+        "method": "GET",
+        "headers": [],
+        "queryParams": [
+          {
+            "name": "user_id",
+            "value": "321",
+            "enabled": true
+          },
+          {
+            "name": "from",
+            "value": "2025-10-23T13:07:18.392Z",
+            "enabled": true
+          },
+          {
+            "name": "till",
+            "value": "2025-10-25T22:07:18.392Z",
+            "enabled": true
+          }
+        ],
+        "pathParams": [],
+        "auth": {
+          "type": "inherited"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "Calculate metrics",
+        "url": "http://localhost:8080/api/metrics",
+        "method": "POST",
+        "headers": [],
+        "queryParams": [],
+        "pathParams": [],
+        "auth": {
+          "type": "inherited"
+        },
+        "body": {
+          "type": "text",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      },
+      {
+        "name": "List metrics",
+        "url": "http://localhost:8080/api/metrics",
+        "method": "GET",
+        "headers": [],
+        "queryParams": [
+          {
+            "name": "user_id",
+            "value": "321",
+            "enabled": true
+          },
+          {
+            "name": "from",
+            "value": "2025-10-23T13:07:18.392Z",
+            "enabled": true
+          },
+          {
+            "name": "till",
+            "value": "2025-10-25T22:07:18.392Z",
+            "enabled": true
+          }
+        ],
+        "pathParams": [],
+        "auth": {
+          "type": "inherited"
+        },
+        "body": {
+          "type": "none",
+          "file": {
+            "name": ""
+          },
+          "text": {
+            "value": "",
+            "format": "application/json"
+          },
+          "form": {
+            "isMultipart": false,
+            "fields": []
+          },
+          "graphql": {
+            "query": "",
+            "variables": ""
+          }
+        }
+      }
+    ]
+  }
+}
