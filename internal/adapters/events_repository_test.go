@@ -66,7 +66,7 @@ func createRepositories(t *testing.T) []Repository {
 	}
 }
 
-func newPostgresRepository(t *testing.T, ctx context.Context) *adapters.EventsPostgresRepository {
+func newPostgresRepository(t *testing.T, ctx context.Context) event.Repository {
 	conn, err := adapters.NewPostgresConnection(ctx)
 	require.NoError(t, err)
 

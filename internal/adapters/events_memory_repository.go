@@ -14,7 +14,7 @@ type EventsMemoryRepository struct {
 	events map[uuid.UUID]event.Event
 }
 
-func NewEventsMemoryRepository() *EventsMemoryRepository {
+func NewEventsMemoryRepository() event.Repository {
 	return &EventsMemoryRepository{
 		events: map[uuid.UUID]event.Event{},
 	}

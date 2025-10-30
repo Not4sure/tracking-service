@@ -14,8 +14,8 @@ type MetricsPostgresRepository struct {
 	conn *pgxpool.Pool
 }
 
-func NewMetricsPostgresRepository(conn *pgxpool.Pool) MetricsPostgresRepository {
-	return MetricsPostgresRepository{
+func NewMetricsPostgresRepository(conn *pgxpool.Pool) metric.Repository {
+	return &MetricsPostgresRepository{
 		conn,
 	}
 }

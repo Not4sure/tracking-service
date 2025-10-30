@@ -13,8 +13,8 @@ type MetricsPostgresProvider struct {
 	conn *pgxpool.Pool
 }
 
-func NewMetricsPostgresProvider(conn *pgxpool.Pool) MetricsPostgresProvider {
-	return MetricsPostgresProvider{
+func NewMetricsPostgresProvider(conn *pgxpool.Pool) metric.Provider {
+	return &MetricsPostgresProvider{
 		conn: conn,
 	}
 }

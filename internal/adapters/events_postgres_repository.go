@@ -21,7 +21,7 @@ type EventsPostgresRepository struct {
 	queries *db.Queries
 }
 
-func NewEventsPostgresRepository(conn *pgxpool.Pool) *EventsPostgresRepository {
+func NewEventsPostgresRepository(conn *pgxpool.Pool) event.Repository {
 	if conn == nil {
 		panic("nil db")
 	}

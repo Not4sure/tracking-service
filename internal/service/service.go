@@ -27,11 +27,11 @@ func NewApplication(ctx context.Context) app.Application {
 	return app.Application{
 		Commands: app.Commands{
 			CreateEvent:      command.NewCreateEventHandler(eventRepo, logger, appMetricsClient),
-			CalculateMetrics: command.NewCalculateMetricsHandler(&metricsRepo, &metricsProvider, logger, appMetricsClient),
+			CalculateMetrics: command.NewCalculateMetricsHandler(metricsRepo, metricsProvider, logger, appMetricsClient),
 		},
 		Queries: app.Queries{
 			ListEvents:  query.NewListEventsHandler(eventRepo, logger, appMetricsClient),
-			ListMetrics: query.NewListMetricsHandler(&metricsRepo, logger, appMetricsClient),
+			ListMetrics: query.NewListMetricsHandler(metricsRepo, logger, appMetricsClient),
 		},
 	}
 }
